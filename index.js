@@ -29,29 +29,12 @@ mongoose.connect( 'mongodb://localhost/family_tree' );
             // read all
             // read one
             // delete one
-    // update one
+            // update one
 // create partial crud on child
-    // create
-    // read one
+            // create
+            // read one
     // delete
-
-
-
-// Teacher.create({
-
-//     name : "Anthony",
-//     meta : {
-
-//         age     : 18,
-//         subject : 'cooking',
-//         height  : 72
-//     },
-//     students : []
-// }, function( err, teacher ) {
-
-//     if ( err ) console.log( err );
-//     console.log( "Teacher created!", teacher );
-// });
+    // add student to teacher
 
 
 /**
@@ -64,11 +47,31 @@ mongoose.connect( 'mongodb://localhost/family_tree' );
 app.get( '/', ( req, res ) => {
     // find all
 
-    Teacher.find( {}, function( err, teachers ) {
+    /**
+     * 
+     * This is an example of finding everything in one model only
+     */
+    // Teacher.find( {}, function( err, teachers ) {
 
-        if ( err ) res.json( err );
-        res.json( teachers );
-    })
+    //     if ( err ) res.json( err );
+    //     res.json( teachers );
+    // })
+
+    /**
+     * 
+     * This is an exampel of finding things from two models,
+     * then 'concatenating' the results to display on the screen..
+     * ( or combining the two arrays, student and teacher )
+     */
+    Teacher.find( {} ).exec()
+    .then( function( teachers ){
+
+        Student.find( {}, function( err, students ){
+
+            res.json( teachers.concat( students ) );
+        })
+    });
+
 });
 
 /**
@@ -117,6 +120,9 @@ app.get( '/createTeacher/:dillywiddle/:blah?', ( req, res ) => {
     }, function( err, teacher ) {
 
         if( err ) res.json( err );
+
+        console.log( teacher ); // im logging the new teacher to the console in the terminal running 'nodemon' just before redirecting..
+
         res.redirect( '/' ); // redirect back to the '/' route above this function
     })
 });
@@ -194,56 +200,145 @@ app.get( '/updateTeacherSubject/:sillyboi/:newsubject', ( req, res ) => {
 });
 
 
-/*
-app.get('/:id', (req, res) => {
-    User.findById(req.params.id, function(err, user){
-        if (err) {
-            res.json(err)
+
+
+/** API Section for Students ( the Child Model ) */
+
+
+app.get( '/createStudent/:stuname/:majj?', ( req, res ) => {
+
+    Student.create({
+
+        name : req.params.stuname, // set the name equal to the parameter
+        meta : {
+
+            major : req.params.majj // if this is blank, it wont be set
         }
-        res.json(user)
-    })
-})
-*/
+    }, function( err, sadsasd ) { // the second parameter isnt even needed.. mainly since im just redirecting
 
-app.get("/updateall", (req, res) => {
-    User.update({name: "Mike"}, 
-        {$set: 
-            { meta: 
-                { age: 24, website: "www.web.site" }
-            }
-        }, function(err, users) {
-        if (err) res.json(err)
-        res.json(users)
-    })
-})
-
-app.get("/updateall", (req, res) => {
-    User.findOneAndUpdate({name: "Mike"}, 
-        {$set: 
-            { meta: 
-                { age: 44, website: "test" }
-            }
-        }, {new: true}, function(err, users) {
-        if (err) res.json(err)
-        res.json(users)
-    })
-})
-
-app.get("/delete", (req, res) => {
-    User.remove({name: "Emily"}, function(err) {
-        if (err) res.json(err);
-        res.json({message: "DELETED"})
-    })
-})
-
-app.get("/destroymike", (req, res) => {
-    User.findOneAndRemove({name: "Mike"}, function(err) {
-        if (err) res.json(err)
-        res .json({message: "DELETED"})
+        if( err ) res.json( err );
+        res.redirect( '/' ); // redirect back to the '/' route above this function
     })
 });
 
 
+app.get( '/getStudent/:name', ( req, res ) => {
+    // find one
+
+    Student.findOne({
+
+        name : req.params.name // this is the identifier key-value pair
+    }, function( err, studentssasd ) {
+
+        if( err ) res.json( err );
+        res.json( studentssasd ); // res.json basically means print the json response to the screen
+    })
+});
+
+
+app.get( '/removeStudent/:sasquatch', ( req, res ) => {
+
+    Student.deleteOne({
+
+        name : req.params.sasquatch // find based on this parameter
+    }, function( err ) {
+
+        if ( err ) res.json( err );
+        res.redirect( '/' ); // redirect when done, deleted or not
+    })
+});
+
+
+/**
+ * 
+ * This is our example for adding a student to a teacher's class.. or whatever..
+ * 
+ */
+app.get( '/addStudent/:jesus/:mohammad', ( req, res ) => {
+
+    // Teacher.update({
+
+    //     name : req.params.jesus
+    // },
+    // {
+    //     $set: {
+
+    //         students : req.params.mohammad
+    //     }
+    // }, function( err, nothing ) {
+
+    //     if ( err ) res.json( err );
+    //     res.redirect( '/' );
+    // })
+
+    // Teacher.findOne({
+
+    //     name : req.params.jesus
+    // }, function( err, teacher ) {
+
+    //     Student.findById({
+
+    //         name : req.body.mohammad
+    //     }, function( err, stu ) {
+
+    //         teacher.students.push( stu );
+    //         teacher.save( function( err ) {
+
+    //             // product.orders.push( order );
+    //             // product.save( function( err ) {
+
+    //             //     if ( err ) res.json( err )
+    //             //     res.json( order )
+    //             // })
+
+    //             res.json( teacher );
+    //         })
+    //     })
+    // })
+
+    // Student.find({
+
+    //     name: req.params.jesus
+    // }).exec()
+    // .then( function( stu ){
+
+    //     Teaher.find({
+
+    //         name: req.params.mohammad
+    //     }, function( err, teach ){
+
+    //         teach.students.push( stu );
+
+    //         teach.save( function( err ) {
+
+    //             if( err ) res.json( err );
+    //             res.redirect( '/' );
+    //         })
+    //     })
+    // });
+
+    // Student.findOne({
+
+    //     name : req.params.jesus
+    // }, function( err, stu ) {
+
+    //     console.log( '1:: ' + err );
+    //     Teacher.findOne({
+
+    //         name : req.body.mohammad
+    //     }, function( err, teach ) {
+
+    //         console.log( '2:: ' + err );
+    //         teach.students.push( stu );
+
+    //         teach.save( function( err ) {
+
+    //             if( err ) res.json( err );
+    //             res.redirect( '/' );
+    //         })
+    //     })
+    // })
+})
 
 
 
@@ -254,14 +349,13 @@ app.get( '/destroyall', ( req, res ) => {
         if ( err ) res.json( err );
     });
 
-    // Student.deleteMany( {}, function( err ) {
+    Student.deleteMany( {}, function( err ) {
 
-    //     if ( err ) res.json( err );
-    // });
+        if ( err ) res.json( err );
+    });
 
     res.redirect( '/' );
 });
-
 
 
 

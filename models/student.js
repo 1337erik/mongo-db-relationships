@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema({
 
 studentSchema.methods.sayName = function() {
 
-    return "My Gender Nuetral name is " + this.name;
+    return "My name is " + this.name;
 }
 
 

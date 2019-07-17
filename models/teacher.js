@@ -22,7 +22,7 @@ const teacherSchema = new mongoose.Schema({
 
 teacherSchema.methods.listStudents = function() {
 
-    return "Lmao nah";
+    return this.students.length;
 }
 
 
