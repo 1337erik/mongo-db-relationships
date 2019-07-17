@@ -11,9 +11,7 @@ const teacherSchema = new mongoose.Schema({
     },
     meta : {
 
-        age     : Number,
         subject : String,
-        height  : Number
     },
     students : [{
 

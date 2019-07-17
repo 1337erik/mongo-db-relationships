@@ -10,9 +10,7 @@ const studentSchema = new mongoose.Schema({
     },
     meta : {
 
-        age      : Number,
         major    : String,
-        height   : Number
     }
 });
 
