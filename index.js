@@ -254,16 +254,16 @@ app.get( '/removeStudent/:sasquatch', ( req, res ) => {
  * This is our example for adding a student to a teacher's class.. or whatever..
  * 
  */
-app.get( '/addStudent/:jesus/:mohammad', ( req, res ) => {
+app.get( '/addStudent/:lollerblades/:lmaonade', ( req, res ) => {
 
     // Teacher.update({
 
-    //     name : req.params.jesus
+    //     name : req.params.lollerblades
     // },
     // {
     //     $set: {
 
-    //         students : req.params.mohammad
+    //         students : req.params.lmaonade
     //     }
     // }, function( err, nothing ) {
 
@@ -273,12 +273,12 @@ app.get( '/addStudent/:jesus/:mohammad', ( req, res ) => {
 
     // Teacher.findOne({
 
-    //     name : req.params.jesus
+    //     name : req.params.lollerblades
     // }, function( err, teacher ) {
 
     //     Student.findById({
 
-    //         name : req.body.mohammad
+    //         name : req.body.lmaonade
     //     }, function( err, stu ) {
 
     //         teacher.students.push( stu );
@@ -298,13 +298,13 @@ app.get( '/addStudent/:jesus/:mohammad', ( req, res ) => {
 
     // Student.find({
 
-    //     name: req.params.jesus
+    //     name: req.params.lollerblades
     // }).exec()
     // .then( function( stu ){
 
     //     Teaher.find({
 
-    //         name: req.params.mohammad
+    //         name: req.params.lmaonade
     //     }, function( err, teach ){
 
     //         teach.students.push( stu );
@@ -319,13 +319,13 @@ app.get( '/addStudent/:jesus/:mohammad', ( req, res ) => {
 
     // Student.findOne({
 
-    //     name : req.params.jesus
+    //     name : req.params.lollerblades
     // }, function( err, stu ) {
 
     //     console.log( '1:: ' + err );
     //     Teacher.findOne({
 
-    //         name : req.body.mohammad
+    //         name : req.body.lmaonade
     //     }, function( err, teach ) {
 
     //         console.log( '2:: ' + err );
