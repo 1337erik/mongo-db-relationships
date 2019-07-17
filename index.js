@@ -1,39 +1,130 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const User = require('./models/user');
+const express  = require( 'express' );
+const mongoose = require( 'mongoose' );
 
-const app = express();
+const Student  = require( './models/student' );
+const Teacher  = require( './models/teacher' );
 
-app.use(express.urlencoded({extended: false}));
+const app      = express();
+
+
+app.use(
+
+    express.urlencoded(
+
+        {
+
+            extended: false
+        }
+    )
+);
 
 // Connect to Mongo!
-mongoose.connect('mongodb://localhost/family_tree');
+mongoose.connect( 'mongodb://localhost/family_tree' );
 
-/*
-User.create({
-    name: "Emily",
-    email: 'em@i.ly'
-}, function(err, user) {
-    if (err) console.log(err);
-    console.log("User created!", user)
-})
-*/
-app.get('/', (req,res) => {
+
+        // create 2 models
+        // create a 1:M relationship between them
+// create full crud routes on parent
+            // Create
+            // read all
+            // read one
+            // delete one
+    // update one
+// create partial crud on child
+    // create
+    // read one
+    // delete
+
+
+
+// Teacher.create({
+
+//     name : "Anthony",
+//     meta : {
+
+//         age     : 18,
+//         subject : 'cooking',
+//         height  : 72
+//     },
+//     students : []
+// }, function( err, teacher ) {
+
+//     if ( err ) console.log( err );
+//     console.log( "Teacher created!", teacher );
+// });
+
+
+app.get( '/', ( req, res ) => {
+    // find all
+
+    Teacher.find( {}, function( err, teachers ) {
+
+        if ( err ) res.json( err );
+        res.json( teachers );
+    })
+});
+
+
+app.get( '/destroyall', ( req, res ) => {
+
+    Teacher.deleteMany( {}, function( err ) {
+
+        if ( err ) res.json( err );
+    });
+
+    res.redirect( '/' );
+});
+
+
+app.get( '/:name', ( req, res ) => {
     // find one
-    User.find({}, function(err, users) {
-        if (err) res.json(err)
-        res.json(users)
-    })
-})
 
-/*
-app.get('/:name', (req, res) => {
-    User.findOne({name: req.params.name}, function(err, user) {
-        if (err) res.json(err)
-        res.json(user)
+    Teacher.findOne({
+
+        name : req.params.name
+    }, function( err, user ) {
+
+        if( err ) res.json( err );
+        res.json( user );
     })
-})
-*/
+});
+
+
+app.get( '/create/:dillywiddle/:blah?', ( req, res ) => {
+
+    Teacher.create({
+
+        name : req.params.dillywiddle,
+        meta : {
+
+            subject : req.params.blah
+        }
+    }, function( err, teacher ) {
+
+        if( err ) res.json( err );
+        res.redirect( '/' );
+    })
+});
+
+
+app.get( '/kill/:sasquatch', ( req, res ) => {
+
+    Teacher.deleteOne({
+
+        name : req.params.sasquatch
+    }, function( err ) {
+
+        if ( err ) res.json( err );
+        res.redirect( '/' );
+    })
+});
+
+
+app.get( '/update/:name/:key/:value', ( req, res ) => {
+
+
+});
+
 
 /*
 app.get('/:id', (req, res) => {
@@ -82,12 +173,11 @@ app.get("/destroymike", (req, res) => {
         if (err) res.json(err)
         res .json({message: "DELETED"})
     })
-})
+});
 
 
 
+app.listen( 3000, () => {
 
-app.listen(3000, () => {
-    console.log("Hunting cobras on 3000")
-})
-
+    console.log( "Hunting cobras on 3000" );
+});
